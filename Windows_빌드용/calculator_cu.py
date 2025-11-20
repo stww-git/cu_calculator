@@ -85,35 +85,14 @@ def get_valid_input(item_name, reference_date):
             print("다시 시도해주세요.")
 
 
-def get_display_width(text):
-    """한글 폭을 고려한 실제 표시 폭 계산"""
-    width = 0
-    for char in text:
-        if ord(char) > 127:  # 한글 등 멀티바이트 문자
-            width += 2
-        else:
-            width += 1
-    return width
-
-def format_table_cell(text, width, align='left'):
-    """테이블 셀 포맷팅"""
-    display_width = get_display_width(text)
-    padding = width - display_width
-    if align == 'right':
-        return ' ' * padding + text
-    else:
-        return text + ' ' * padding
-
 def confirm_inputs(sales):
     """입력값 확인 함수"""
-    print("\n" + "="*75)
+    print("\n" + "="*50)
     print("📋 입력하신 판매량 확인")
-    print("="*75)
-    print(f"{format_table_cell('품목', 20)}│{format_table_cell('판매량', 12, 'right')}")
-    print("-" * 75)
+    print("="*50)
     for item, quantity in sales.items():
-        print(f"{format_table_cell(item, 20)}│{format_table_cell(f'{quantity}개', 12, 'right')}")
-    print("="*75)
+        print(f"  {item:10s}: {quantity:>4d}개")
+    print("="*50)
     
     while True:
         confirm = input("\n입력값이 맞나요? (Y/N): ").strip().upper()
@@ -190,35 +169,24 @@ def main():
                     sys.exit(0)
 
         # 발주 결과 계산 및 출력
-        print("\n" + "="*85)
+        print("\n" + "="*60)
         print("  📊 발주 결과 (안전수량 적용)")
-        print("="*85)
+        print("="*60)
 
         two_step_items = ["도시락", "삼각김밥", "김밥", "샌드위치", "햄버거"]
 
-        # 2차 발주 품목 테이블
-        print("\n🔄 간편식 발주 품목")
-        print("-" * 85)
-        header = f"{format_table_cell('품목', 18)}│{format_table_cell('1차 발주', 15, 'right')}│{format_table_cell('2차 발주', 15, 'right')}│{format_table_cell('합계', 15, 'right')}"
-        print(header)
-        print("-" * 85)
+        print("\n🔄 2차 발주 품목:")
+        print("-" * 60)
         for item in two_step_items:
             f, s = calc_two_step(item, sales[item])
-            total = f + s
-            row = f"{format_table_cell(item, 18)}│{format_table_cell(f'{f}개', 15, 'right')}│{format_table_cell(f'{s}개', 15, 'right')}│{format_table_cell(f'{total}개', 15, 'right')}"
-            print(row)
-        print("-" * 85)
+            print(f"  {item:10s} → 1차: {f:>3d}개  /  2차: {s:>3d}개  (총: {f+s:>3d}개)")
 
-        # 1차 발주 품목 테이블
-        print("\n📦 빵 디저트 발주")
-        print("-" * 85)
-        print(f"{format_table_cell('품목', 18)}│{format_table_cell('발주량', 15, 'right')}")
-        print("-" * 85)
+        print("\n📦 1차 발주 품목:")
+        print("-" * 60)
         bread_qty = calc_single_step('빵', sales['빵'])
         dessert_qty = calc_single_step('디저트', sales['디저트'])
-        print(f"{format_table_cell('빵', 18)}│{format_table_cell(f'{bread_qty}개', 15, 'right')}")
-        print(f"{format_table_cell('디저트', 18)}│{format_table_cell(f'{dessert_qty}개', 15, 'right')}")
-        print("-" * 85)
+        print(f"  빵         → 총 {bread_qty:>3d}개")
+        print(f"  디저트     → 총 {dessert_qty:>3d}개")
 
         # 총 발주량 계산
         total_qty = 0
@@ -227,9 +195,9 @@ def main():
             total_qty += f + s
         total_qty += bread_qty + dessert_qty
 
-        print("\n" + "="*85)
-        print(f"{format_table_cell('총 발주량', 18)}│{format_table_cell(f'{total_qty}개', 15, 'right')}")
-        print("="*85)
+        print("\n" + "="*60)
+        print(f"  ✅ 총 발주량: {total_qty}개")
+        print("="*60)
         print("\n✨ 발주 계산이 완료되었습니다!\n")
 
         # 프로그램 종료 전 대기

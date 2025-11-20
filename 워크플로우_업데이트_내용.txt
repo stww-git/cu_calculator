@@ -1,3 +1,22 @@
+========================================
+  워크플로우 업데이트 완료
+========================================
+
+❌ 오류 내용:
+- actions/upload-artifact@v3가 deprecated됨
+
+✅ 수정 사항:
+- actions/upload-artifact@v3 → v4로 업데이트
+- actions/checkout@v3 → v4로 업데이트  
+- actions/setup-python@v4 → v5로 업데이트
+
+📝 다음 단계:
+
+1. GitHub 저장소에서 `.github/workflows/build_windows.yml` 파일 열기
+
+2. 파일 내용을 아래로 교체:
+
+```yaml
 name: Build Windows Executable
 
 on:
@@ -32,4 +51,11 @@ jobs:
       with:
         name: CU발주시스템_Windows
         path: dist/CU발주시스템.exe
+```
+
+3. "Commit changes" 클릭하여 저장
+
+4. Actions 탭에서 워크플로우 다시 실행
+
+========================================
 
