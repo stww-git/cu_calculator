@@ -1,0 +1,35 @@
+name: Build Windows Executable
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'calculator_cu.py'
+
+jobs:
+  build:
+    runs-on: windows-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+    
+    - name: Install PyInstaller
+      run: pip install pyinstaller
+    
+    - name: Build executable
+      run: |
+        pyinstaller --onefile --name "CU발주시스템" --console calculator_cu.py
+    
+    - name: Upload artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: CU발주시스템_Windows
+        path: dist/CU발주시스템.exe
+
