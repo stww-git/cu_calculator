@@ -25,7 +25,7 @@ jobs:
     
     - name: Build executable
       run: |
-        pyinstaller --onefile --name "CU발주시스템" --console calculator_cu.py
+        pyinstaller --onefile --name "CU_Calculator" --console calculator_cu.py
     
     - name: Upload artifact
       uses: actions/upload-artifact@v4
