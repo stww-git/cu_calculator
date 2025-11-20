@@ -13,10 +13,10 @@ jobs:
     runs-on: windows-latest
     
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     
     - name: Set up Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
         python-version: '3.9'
     
@@ -28,8 +28,7 @@ jobs:
         pyinstaller --onefile --name "CU발주시스템" --console calculator_cu.py
     
     - name: Upload artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: CU발주시스템_Windows
         path: dist/CU발주시스템.exe
-
